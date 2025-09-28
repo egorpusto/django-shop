@@ -27,7 +27,7 @@ img {
 .container {
     box-sizing: border-box;
     max-width: 1400px;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 a {
@@ -84,6 +84,12 @@ a.button.light {
 .subheader__cart {
     display: flex;
     justify-content: end;
+    align-items: center;
+}
+
+.subheader__cart__link {
+    color: #EFE9E7;
+    margin-left: 5px;
 }
 
 .subheader h2 {
@@ -270,27 +276,66 @@ td input[type="submit"] {
     gap: 5px;
 }
 
-/* form p label,
+/* Order and form */
+
+.order-wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: baseline;
+    gap: 500px;
+}
+
+.order__title,
+.order-created__title {
+    margin: 20px 0;
+}
+
+.order-info-wrapper {
+    width: 400px;
+    height: 200px;
+    background: #efefef;
+    padding: 10px 20px;
+    color: #333;
+    border-bottom: 4px solid #5993bb;
+}
+
+.order-info__title {
+    color: #5993bb;
+}
+
+.order-info-wrapper ul li {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.order-info__total {
+    font-weight: bold;
+    float: right;
+}
+
+form p label,
 form p input {
     float: left;
     clear: both;
+    font-size: 14px;
 }
 
 form p label {
-    font-size: 14px;
     padding-bottom: 4px;
 }
 
 form p input {
     width: 300px;
-    font-size: 13px;
     margin-bottom: 10px;
     padding: 10px 12px;
     border: 0;
     background: #efefef;
-    color: #666;
+    color: #111;
     border-radius: 4px;
-} */
+}
+
+/*  */
 
 /* ul.errorlist {
     float: left;
@@ -301,41 +346,8 @@ form p input {
     padding: 10px 0;
 } */
 
-
-
-
 /* 
-.order-form {
-    float: left;
-}
 
-.order-info {
-    float: right;
-    width: 300px;
-    background: #efefef;
-    padding: 10px 20px;
-    color: #333;
-    border-bottom: 4px solid #5993bb;
-}
-
-.order-info h3 {
-    color: #5993bb;
-}
-
-.order-info ul li {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-}
-
-.order-info p {
-    font-weight: bold;
-    float: right;
-}
-
-.order-info span {
-    float: right;
-}
 
 .neg {
     color: #dc1616;
