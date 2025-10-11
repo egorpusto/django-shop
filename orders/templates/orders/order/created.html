@@ -7,7 +7,9 @@ Thank you
 
 {% block content %}
 <div class="container">
-    <h1 class="order-created__title">Thank you</h1>
-    <p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
+    <div class="order-created">
+        <h1 class="order-created__title main-title--notification">Thank you</h1>
+        <p>Your order has been successfully completed! Your order number is <strong>{{ order.id }}</strong>.</p>
+    </div>
 </div>
 {% endblock %}

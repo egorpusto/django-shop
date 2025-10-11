@@ -9,16 +9,17 @@ Checkout
 
 <div class="container">
     <div class="order-wrapper">
-        <div class="order-columns-wrapper">
-            <h1 class="order__title">Checkout</h1>
-            <form method="post" class="order__form">
+        <div class="order-wrapper__columns">
+            <h1 class="order-wrapper__title">Checkout</h1>
+            <form method="post" class="order-wrapper__form">
                 {{ form.as_p }}
                 <p><input type="submit" value="Place order"></p>
                 {% csrf_token %}
             </form>
         </div>
-        <div class="order-info-wrapper">
-            <h3 class="order-info__title">Your order</h3>
+
+        <div class="order-wrapper__info">
+            <h3 class="order-wrapper__info-title">Your order</h3>
             <ul>
                 {% for item in cart %}
                 <li>
@@ -26,11 +27,17 @@ Checkout
                     <span>${{ item.total_price }}</span>
                 </li>
                 {% endfor %}
+                {% if cart.coupon %}
+                <li>
+                    "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
+                    <span class="order-wrapper__row--neg">- ${{ cart.get_discount|floatformat:2 }}</span>
+                </li>
+                {% endif %}
             </ul>
-            <p class="order-info__total">Total: ${{ cart.get_total_price }}</p>
+            <p class="order-wrapper__info-total">Total: ${{ cart.get_total_price_after_discount|floatformat:2 }}</p>
         </div>
     </div>
 </div>
-</div>
+
 
 {% endblock %}

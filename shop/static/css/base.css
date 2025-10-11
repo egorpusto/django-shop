@@ -6,7 +6,7 @@ body {
     font-family: helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #EFE9E7;
+    background-color: #ffffff;
 }
 
 h1,
@@ -22,6 +22,33 @@ h6 {
 img {
     max-width: 100%;
     border-radius: 10px;
+}
+
+.main-img {
+    width: 180px;
+}
+
+[class$="--neg"] {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+[class$="--num"] {
+    font-weight: bold;
+}
+
+[class$="--subtotal"] {
+    background: #ccc;
+}
+
+[class$="--label"] {
+    background: #5993bb;
+    color: #fff;
+    font-weight: bold;
+}
+
+.main-title {
+    margin: 20px 0;
 }
 
 .container {
@@ -88,7 +115,7 @@ a.button.light {
 }
 
 .subheader__cart__link {
-    color: #EFE9E7;
+    color: #ffffff;
     margin-left: 5px;
 }
 
@@ -227,40 +254,24 @@ a.button.light {
 
 /* Cart and table */
 
-.cart__title {
-    margin: 20px 0;
-}
-
-.cart__table img {
-    width: 180px;
-}
-
 table {
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
 }
 
-table th,
-table td {
+.order-summary__head,
+.cart-table__row {
     text-align: left;
+}
+
+.order-summary__cell,
+.cart-table__cell {
     font-size: 14px;
     padding: 10px;
-    margin: 0;
 }
 
-tbody tr.subtotal {
-    background: #ccc;
-}
-
-thead th,
-.total {
-    background: #5993bb;
-    color: #fff;
-    font-weight: bold;
-}
-
-.total__num {
+.cart-summary__row-num {
     text-align: right;
 }
 
@@ -269,10 +280,23 @@ td input[type="submit"] {
     padding: 4px 10px;
 }
 
-.text-wrapper {
+.cart__actions {
     display: flex;
     justify-content: flex-end;
     margin-top: 40px;
+    gap: 5px;
+}
+
+.coupon-wrapper {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 10px;
+}
+
+.coupon-wrapper__form {
+    display: flex;
+    align-items: center;
     gap: 5px;
 }
 
@@ -280,17 +304,17 @@ td input[type="submit"] {
 
 .order-wrapper {
     display: flex;
-    justify-content: start;
+    justify-content: space-around;
     align-items: baseline;
-    gap: 500px;
+    gap: 400px;
 }
 
-.order__title,
+.order-wrapper__title,
 .order-created__title {
     margin: 20px 0;
 }
 
-.order-info-wrapper {
+.order-wrapper__info {
     width: 400px;
     height: 200px;
     background: #efefef;
@@ -299,19 +323,23 @@ td input[type="submit"] {
     border-bottom: 4px solid #5993bb;
 }
 
-.order-info__title {
+.order-wrapper__info-title {
     color: #5993bb;
 }
 
-.order-info-wrapper ul li {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
+.order-wrapper__info span {
+    float: right;
 }
 
-.order-info__total {
+.order-wrapper__info-total {
     font-weight: bold;
     float: right;
+}
+
+.order-total-row {
+    background: #5993bb;
+    color: #fff;
+    font-weight: bold;
 }
 
 form p label,
@@ -326,7 +354,7 @@ form p label {
 }
 
 form p input {
-    width: 300px;
+    width: 500px;
     margin-bottom: 10px;
     padding: 10px 12px;
     border: 0;
@@ -335,7 +363,19 @@ form p input {
     border-radius: 4px;
 }
 
-/*  */
+.order-summary__form {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 10px;
+}
+
+/* Payment completed/canceled */
+
+.order-canceled,
+.order-completed {
+    text-align: center;
+}
 
 /* ul.errorlist {
     float: left;
@@ -347,11 +387,6 @@ form p input {
 } */
 
 /* 
-
-
-.neg {
-    color: #dc1616;
-}
 
 .languages {
     float: right;
