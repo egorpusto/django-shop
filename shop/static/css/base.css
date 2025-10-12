@@ -191,6 +191,7 @@ a.button.light {
     text-align: center;
     line-height: 1.2;
 
+    padding-bottom: 15px;
     min-width: 200px;
     max-width: 32%;
     box-sizing: border-box;
@@ -377,6 +378,51 @@ form p input {
     text-align: center;
 }
 
+/* Recommendations */
+
+.product-recommendations {
+    margin: 20px 0;
+}
+
+.product-recommendations__title {
+    margin-bottom: 20px;
+}
+
+.product-recommendations__list {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.product-recommendations__img {
+    width: 300px;
+    height: 175px;
+}
+
+/* .recommendations p {
+    clear: both;
+}
+
+.recommendations.cart {
+    width: 60%;
+    float: left;
+    overflow: auto;
+}
+
+.recommendations.cart h3 {
+    margin-top: 0;
+}
+
+.recommendations.cart .item {
+    margin-right: 10px;
+}
+
+.recommendations.cart img {
+    width: 120px;
+} */
+
+
+
 /* ul.errorlist {
     float: left;
     color: #ff0000;
@@ -411,40 +457,6 @@ form p input {
     float: left;
     margin: 0;
 }
-
-.recommendations {
-    clear: both;
-}
-
-.recommendations div {
-    float: left;
-}
-
-.recommendations img {
-    width: 200px
-}
-
-.recommendations p {
-    clear: both;
-}
-
-.recommendations.cart {
-    width: 60%;
-    float: left;
-    overflow: auto;
-}
-
-.recommendations.cart h3 {
-    margin-top: 0;
-}
-
-.recommendations.cart .item {
-    margin-right: 10px;
-}
-
-.recommendations.cart img {
-    width: 120px;
-} */
 
 /* braintree hosted fields */
 /* form div.field {
