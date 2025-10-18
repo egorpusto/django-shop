@@ -21,7 +21,7 @@ A fully-featured online shop built with Django, featuring product management, sh
 ## 📸 Screenshots
 
 | Main Page | Product Info | Cart | Checkout | Order Summary |
-|-----------|--------------|-----------|-----------|
+|-----------|--------------|-----------|-----------|-----------|
 | ![Main Page](screenshots/main_page.png) | ![Product Info](screenshots/product_info.png) | ![Cart](screenshots/cart.png) | ![Checkout](screenshots/checkout.png) | ![Order Summary](screenshots/order_summary.png) |
 
 ---
