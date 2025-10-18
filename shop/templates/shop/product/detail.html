@@ -1,51 +1,61 @@
 {% extends 'shop/base.html' %}
-{% load static %}
+{% load i18n static %}
 
 {% block title %}
 {{ product.name }}
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
-    <div class="product-detail">
-        <img class="product-detail__img" src="{% if product.image %}{{ product.image.url }}{% else %}
-                    {% static 'img/no_image.png' %}{% endif %}" alt="{{ product.name }}">
+    <article class="product-detail">
+        <div class="product-detail__image">
+            <img class="product-detail__img"
+                src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                alt="{{ product.name }}" />
+        </div>
+
         <div class="product-detail__desc">
-            <h1>{{ product.name }}</h1>
-            <h2>
-                <a href="{{ product.category.get_absolute_url }}">
-                    {{ product.category.name }}
-                </a>
+            <h1 class="product-detail__title">{{ product.name }}</h1>
+
+            <h2 class="product-detail__category">
+                <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
             </h2>
+
             <p class="product-detail__price">${{ product.price }}</p>
+
             <div class="product-detail__action">
-                <form action="{% url 'cart:cart_add' product.id%}" method="post">
-                    {{ cart_product_form }}
+                <form action="{% url 'cart:cart_add' product.id %}" method="post" class="product-detail__form">
                     {% csrf_token %}
-                    <input type="submit" value="Add to cart">
+                    {{ cart_product_form }}
+                    <button type="submit" class="btn btn--primary">
+                        {% translate 'Add to cart' %}
+                    </button>
                 </form>
             </div>
-            <p>{{ product.description|linebreaks }}</p>
+
+            <div class="product-detail__description">
+                {{ product.description|linebreaks }}
+            </div>
         </div>
-    </div>
+    </article>
+
     {% if recommended_products %}
-    <div class="product-recommendations">
-        <h3 class="product-recommendations__title">People who bought this also bought</h3>
+    <section class="product-recommendations">
+        <h3 class="product-recommendations__title">{% translate 'People who bought this also bought' %}</h3>
         <div class="product-recommendations__list">
             {% for p in recommended_products %}
-            <div class="product-recommendations__item">
-                <a href="{{ p.get_absolute_url }}">
-                    <img class="product-recommendations__img" src="{% if p.image %}{{ p.image.url }}{% else %}
-                                                            {% static 'img/no_image.png' %}{% endif %}"
-                        alt="{{ p.name }}">
+            <article class="product-recommendations__item">
+                <a href="{{ p.get_absolute_url }}" class="product-recommendations__link">
+                    <img class="product-recommendations__img"
+                        src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                        alt="{{ p.name }}" />
+                    <p class="product-recommendations__name">{{ p.name }}</p>
                 </a>
-                <p><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></p>
-            </div>
+            </article>
             {% endfor %}
         </div>
-        {% endif %}
-    </div>
+    </section>
+    {% endif %}
 </div>
 
 {% endblock %}

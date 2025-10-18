@@ -9,6 +9,7 @@ from .forms import OrderCreateForm
 from .models import Order, OrderItem
 from .tasks import order_created
 import weasyprint
+from django.utils import translation
 
 def order_create(request):
     cart = Cart(request)
@@ -49,6 +50,7 @@ def admin_order_detail(request, order_id):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    translation.activate(request.LANGUAGE_CODE)
     html = render_to_string(
         'orders/order/pdf.html', {'order': order}
     )
@@ -59,10 +61,10 @@ def admin_order_pdf(request, order_id):
     weasyprint.HTML(string=html).write_pdf(
         response,
         stylesheets=[
-            weasyprint.CSS(
+            weasyprint.CSS(str(
                 settings.STATIC_ROOT / 'css/pdf.css'
-            )
+                ))
         ]
     )
-
+    translation.deactivate()
     return response

@@ -1,67 +1,85 @@
 {% extends 'shop/base.html' %}
-{% load static %}
+{% load i18n static %}
 
-{% block title %}Pay your order{% endblock %}
+{% block title %}{% translate "Pay your order" %}{% endblock %}
 
 {% block content %}
-
 <div class="container">
-    <div class="order-summary">
-        <h1 class="order-summary__title main-title">Order summary</h1>
-        <table class="order-summary__table">
-            <thead class="order-summary__head">
-                <tr class="order-summary__row--label">
-                    <th class="order-summary__cell">Image</th>
-                    <th class="order-summary__cell">Product</th>
-                    <th class="order-summary__cell">Price</th>
-                    <th class="order-summary__cell">Quantity</th>
-                    <th class="order-summary__cell">Total</th>
+    <div class="order">
+        <h1 class="order__title main-title">{% translate "Order summary" %}</h1>
+
+        <table class="table table--order">
+            <thead class="table__head">
+                <tr class="table__row table__row--head">
+                    <th class="table__cell">{% translate "Image" %}</th>
+                    <th class="table__cell">{% translate "Product" %}</th>
+                    <th class="table__cell">{% translate "Price" %}</th>
+                    <th class="table__cell">{% translate "Quantity" %}</th>
+                    <th class="table__cell">{% translate "Total" %}</th>
                 </tr>
             </thead>
-            <tbody class="order-summary__body">
+
+            <tbody class="table__body">
                 {% for item in order.items.all %}
-                <tr class="order-summary__row{% cycle ' order-summary__row--alt' '' %}">
-                    <td class="order-summary__cell order-summary__cell--image">
-                        <img class="order-summary__img main-img" src="{% if item.product.image %}{{ item.product.image.url}}
-                        {% else %}{% static 'img/no_image.png' %}{% endif %}">
+                <tr class="table__row{% cycle ' table__row--alt' '' %}">
+                    <td class="table__cell" data-label="{% translate 'Image' %}">
+                        <img class="table__img" src="{% if item.product.image %}{{ item.product.image.url }}
+                                  {% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ item.product.name }}">
                     </td>
-                    <td class="order-summary__cell">{{ item.product.name }}</td>
-                    <td class="order-summary__cell order-summary__cell--num">${{ item.price }}</td>
-                    <td class="order-summary__cell order-summary__cell--num">${{ item.quantity }}</td>
-                    <td class="order-summary__cell order-summary__cell--num">${{ item.get_cost }}</td>
+
+                    <td class="table__cell" data-label="{% translate 'Product' %}">
+                        {{ item.product.name }}
+                    </td>
+
+                    <td class="table__cell table__cell--num" data-label="{% translate 'Price' %}">
+                        ${{ item.price }}
+                    </td>
+
+                    <td class="table__cell table__cell--num" data-label="{% translate 'Quantity' %}">
+                        {{ item.quantity }}
+                    </td>
+
+                    <td class="table__cell table__cell--num" data-label="{% translate 'Total' %}">
+                        ${{ item.get_cost }}
+                    </td>
                 </tr>
                 {% endfor %}
 
                 {% if order.coupon %}
-                <tr class="order-summary__row order-summary__row--subtotal">
-                    <td class="order-summary__cell">Subtotal</td>
-                    <td class="order-summary__cell" colspan="3"></td>
-                    <td class="order-summary__cell order-summary__cell--num">
+                <tr class="table__row table__row--subtotal">
+                    <td class="table__cell">{% translate "Subtotal" %}</td>
+                    <td class="table__cell" colspan="3"></td>
+                    <td class="table__cell table__cell--num">
                         ${{ order.get_total_cost_before_discount|floatformat:2 }}
                     </td>
                 </tr>
-                <tr class="order-summary__row order-summary__row--discount">
-                    <td class="order-summary__cell">Discount</td>
-                    <td class="order-summary__cell" colspan="3"></td>
-                    <td class="order-summary__cell order-summary__cell--num order-summary__cell--neg">
-                        - ${{ order.get_discount|floatformat:2 }}
+
+                <tr class="table__row table__row--discount">
+                    <td class="table__cell">
+                        {% blocktranslate with code=order.coupon.code discount=order.discount %}
+                        "{{ code }}" ({{ discount }}% off)
+                        {% endblocktranslate %}
+                    </td>
+                    <td class="table__cell" colspan="3"></td>
+                    <td class="table__cell table__cell--num table__cell--neg">
+                        -${{ order.get_discount|floatformat:2 }}
                     </td>
                 </tr>
                 {% endif %}
 
-                <tr class="order-summary__row order-summary__row--label">
-                    <td class="order-summary__cell order-summary__cell--label" colspan="4">Total</td>
-                    <td class="order-summary__cell order-summary__cell--num">${{ order.get_total_cost|floatformat:2 }}
+                <tr class="table__row table__row--total">
+                    <td class="table__cell" colspan="4">{% translate "Total" %}</td>
+                    <td class="table__cell table__cell--num">
+                        ${{ order.get_total_cost|floatformat:2 }}
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <form class="order-summary__form" action="{% url 'payment:process' %}" method="post">
-            <input type="submit" value="Pay now">
+        <form class="order__form" action="{% url 'payment:process' %}" method="post">
             {% csrf_token %}
+            <input type="submit" class="btn order__button" value="{% translate 'Pay now' %}">
         </form>
     </div>
 </div>
-
 {% endblock %}

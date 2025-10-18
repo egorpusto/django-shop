@@ -1,43 +1,57 @@
 {% extends 'shop/base.html' %}
-{% load static %}
+{% load i18n static %}
 
 {% block title %}
-Checkout
+{% translate 'Checkout' %}
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
     <div class="order-wrapper">
-        <div class="order-wrapper__columns">
-            <h1 class="order-wrapper__title">Checkout</h1>
-            <form method="post" class="order-wrapper__form">
-                {{ form.as_p }}
-                <p><input type="submit" value="Place order"></p>
+        <div class="order-wrapper__form-column">
+            <h1 class="order-wrapper__title main-title">{% translate 'Checkout' %}</h1>
+
+            <form method="post" class="order-form">
                 {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="order-form__submit btn">
+                    {% translate 'Place order' %}
+                </button>
             </form>
         </div>
 
-        <div class="order-wrapper__info">
-            <h3 class="order-wrapper__info-title">Your order</h3>
-            <ul>
+        <aside class="order-wrapper__info">
+            <h3 class="order-wrapper__info-title main-title">{% translate 'Your order' %}</h3>
+
+            <ul class="order-list">
                 {% for item in cart %}
-                <li>
-                    {{ item.quantity }}x {{ item.product.name}}
-                    <span>${{ item.total_price }}</span>
+                <li class="order-list__item">
+                    <span>{{ item.quantity }}× {{ item.product.name }}</span>
+                    <span class="order-list__price">${{ item.total_price }}</span>
                 </li>
                 {% endfor %}
+
                 {% if cart.coupon %}
-                <li>
-                    "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
-                    <span class="order-wrapper__row--neg">- ${{ cart.get_discount|floatformat:2 }}</span>
+                <li class="order-list__item order-list__item--coupon">
+                    <span>
+                        {% blocktranslate with code=cart.coupon.code discount=cart.coupon.discount %}
+                        "{{ code }}" ({{ discount }}% off)
+                        {% endblocktranslate %}
+                    </span>
+                    <span class="order-list__price order-list__price--neg">
+                        -${{ cart.get_discount|floatformat:2 }}
+                    </span>
                 </li>
                 {% endif %}
             </ul>
-            <p class="order-wrapper__info-total">Total: ${{ cart.get_total_price_after_discount|floatformat:2 }}</p>
-        </div>
+
+            <p class="order-total">
+                {% translate "Total" %}:
+                <span class="order-total__num">
+                    ${{ cart.get_total_price_after_discount|floatformat:2 }}
+                </span>
+            </p>
+        </aside>
     </div>
 </div>
-
-
 {% endblock %}

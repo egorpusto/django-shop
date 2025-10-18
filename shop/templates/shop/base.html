@@ -1,17 +1,35 @@
-{% load static %}
+{% load i18n static %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
-    <title>{% block title %}My shop{% endblock %}</title>
+    <title>{% block title %}{% translate 'My shop' %}{% endblock %}</title>
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
 </head>
 
 <body>
     <div class="header">
         <div class="container">
-            <a href="/" class="header__logo">My shop</a>
+            <div class="header__wrapper">
+                <a href="/" class="header__logo">{% translate 'My shop' %}</a>
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                <div class="header__languages">
+                    <p class="header__languages-title">{% translate 'Language:' %}</p>
+                    <ul class="header__languages-list">
+                        {% for language in languages %}
+                        <li class="header__languages-item">
+                    <a href="/{{ language.code }}/"
+                        class="header__languages-link{% if language.code == LANGUAGE_CODE %} header__languages-link--selected{% endif %}">
+                        {{ language.name_local|capfirst }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -20,13 +38,16 @@
             <div class="subheader__cart">
                 {% with total_items=cart|length %}
                 {% if total_items > 0 %}
-                Your cart:
-                <a href="{% url 'cart:cart_detail' %}" class="subheader__cart__link">
-                    {{ total_items }} item{{ total_items|pluralize }},
-                    ${{ cart.get_total_price }}
+                {% translate 'Your cart' %}
+                <a href="{% url 'cart:cart_detail' %}" class="subheader__cart-link">
+                    {% blocktranslate with total=cart.get_total_price count items=total_items %}
+                    {{ items }} item, ${{ total }}
+                    {% plural %}
+                    {{ items }} items, ${{ total }}
+                    {% endblocktranslate %}
                 </a>
                 {% elif not order %}
-                Your cart is empty
+                {% translate 'Your cart is empty' %}
                 {% endif %}
                 {% endwith %}
             </div>
@@ -35,8 +56,8 @@
 
 
     <main class="main">
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 </body>
 
