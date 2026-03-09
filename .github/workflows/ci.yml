@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: myshop
+          POSTGRES_USER: myshop
+          POSTGRES_PASSWORD: myshop
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U myshop -d myshop"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      SECRET_KEY: ci-secret-key-not-for-production
+      DEBUG: "True"
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      DB_NAME: myshop
+      DB_USER: myshop
+      DB_PASSWORD: myshop
+      DB_HOST: localhost
+      DB_PORT: "5432"
+      REDIS_HOST: localhost
+      REDIS_PORT: "6379"
+      REDIS_DB: "1"
+      CELERY_BROKER_URL: redis://localhost:6379/0
+      CELERY_RESULT_BACKEND: redis://localhost:6379/0
+      EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+      STRIPE_SECRET_KEY: sk_test_dummy
+      STRIPE_WEBHOOK_SECRET: whsec_dummy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install system dependencies for WeasyPrint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libpango-1.0-0 \
+            libpangoft2-1.0-0 \
+            libpangocairo-1.0-0 \
+            libgdk-pixbuf2.0-0 \
+            libffi-dev \
+            libcairo2 \
+            libjpeg-dev \
+            libpng-dev
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run flake8
+        run: flake8 .
+
+      - name: Run tests with coverage
+        run: pytest --cov=. --cov-report=term-missing --cov-fail-under=80
