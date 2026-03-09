@@ -58,7 +58,7 @@ def payment_process(request):
         # Redirect to the Stripe form
         return redirect(session.url, code=303)
     else:
-        return render(request, 'payment/process.html', locals())
+        return render(request, 'payment/process.html', {'order': order})
 
 def payment_completed(request):
     return render(request, 'payment/completed.html')

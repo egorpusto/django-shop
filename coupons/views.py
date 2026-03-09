@@ -13,7 +13,7 @@ def coupon_apply(request):
         try:
             coupon = Coupon.objects.get(
                 code__iexact=code,
-                valid_form__lte=now,
+                valid_from__lte=now,
                 valid_to__gte=now,
                 active=True
             )
