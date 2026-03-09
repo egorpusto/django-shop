@@ -46,3 +46,8 @@ wcwidth==0.2.14
 weasyprint==66.0
 webencodings==0.5.1
 zopfli==0.2.3.post1
+
+black==25.1.0
+isort==5.13.2
+flake8==7.3.0
+pre-commit==4.2.0

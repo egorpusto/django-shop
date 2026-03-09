@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+exclude = '''
+/(
+    migrations
+  | venv
+  | __pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip = ["migrations", "venv"]
+known_django = ["django"]
+known_first_party = ["shop", "cart", "orders", "payment", "coupons", "myshop"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "DJANGO", "FIRSTPARTY", "LOCALFOLDER"]
