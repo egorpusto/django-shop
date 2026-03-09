@@ -1,6 +1,7 @@
 import logging
 
 import stripe
+from stripe import SignatureVerificationError
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -27,7 +28,7 @@ def stripe_webhook(request):
     except ValueError:
         logger.warning("Stripe webhook: invalid payload")
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
+    except SignatureVerificationError:
         logger.warning("Stripe webhook: invalid signature")
         return HttpResponse(status=400)
 
