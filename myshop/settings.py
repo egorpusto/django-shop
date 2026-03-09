@@ -178,9 +178,9 @@ LOGGING = {
         },
     },
     "loggers": {
-        "shop": {"handlers": ["console"], "level": "WARNING", "propagate": False},
-        "orders": {"handlers": ["console"], "level": "WARNING", "propagate": False},
-        "payment": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        "shop": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+        "orders": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+        "payment": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
     },
 }
 
